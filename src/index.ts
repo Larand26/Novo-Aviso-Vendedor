@@ -15,10 +15,12 @@ const main = async (): Promise<void> => {
     }
     logger.success("Dados dos clientes obtidos com sucesso!");
 
-    const clients = clientsDataFromApi.data || [];
-    logger.info(`Número de clientes obtidos da API: ${clients.length}`);
-    const clientsDataFromDB =
-      await ClientsController.getClientsDataFromDB(clients);
+    logger.info(
+      `Número de clientes obtidos da API: ${clientsDataFromApi.data?.length || 0}`,
+    );
+    const clientsDataFromDB = await ClientsController.getClientsDataFromDB(
+      clientsDataFromApi.data || [],
+    );
 
     if (!clientsDataFromDB || clientsDataFromDB.length === 0) {
       logger.warning("Nenhum dado de cliente encontrado no banco de dados.");
@@ -28,10 +30,11 @@ const main = async (): Promise<void> => {
     );
 
     const filteredClients = Utils.filterClientsByCNPJCPF(
-      clients,
+      clientsDataFromApi.data || [],
       clientsDataFromDB,
     );
     logger.info(`Número de clientes filtrados: ${filteredClients.length}`);
+    console.log(filteredClients);
   } catch (error) {
     logger.error("An error occurred: " + error);
   }

@@ -1,13 +1,14 @@
 import axios from "axios";
 
 import configs from "../config/internalApi.js";
+import type { IClientApi, IClientDB } from "../interfaces/IClients.js";
 
 import MySqlDb from "../db/MySql.js";
 
 abstract class ClientsService {
   static async getClientsDataFromApi(): Promise<{
     success: boolean;
-    data?: Array<any>;
+    data: Array<IClientApi>;
     error?: string;
   }> {
     try {
@@ -21,14 +22,15 @@ abstract class ClientsService {
     } catch (error) {
       return {
         success: false,
+        data: [],
         error: error instanceof Error ? error.message : String(error),
       };
     }
   }
 
   static async getClientsDataFromDB(
-    clients: Array<{ ENTI_CNPJCPF?: string; [key: string]: any }>,
-  ): Promise<Array<Object>> {
+    clients: Array<IClientApi>,
+  ): Promise<Array<IClientDB>> {
     try {
       // Pega apenas os CNPJs válidos (filtra vazios/undefined)
       const cnpjs = clients
@@ -44,7 +46,7 @@ abstract class ClientsService {
         "SELECT * FROM clientes_aviso_vendedor WHERE cnpj IN (?)",
         [cnpjs], // Passa o array diretamente
       );
-      return rows as Array<Object>;
+      return rows as Array<IClientDB>;
     } catch (error) {
       throw new Error(error instanceof Error ? error.message : String(error));
     }
