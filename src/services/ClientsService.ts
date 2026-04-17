@@ -35,6 +35,7 @@ abstract class ClientsService {
         .map((client) => client?.ENTI_CNPJCPF)
         .filter((cnpj) => Boolean(cnpj));
 
+      cnpjs.push("09112200000100");
       // Se não sobrou nenhum CNPJ válido, retorna lista vazia para evitar erro no SQL
       if (cnpjs.length === 0) {
         return [];
@@ -42,7 +43,7 @@ abstract class ClientsService {
 
       const [rows] = await MySqlDb.query(
         "SELECT * FROM clientes_aviso_vendedor WHERE cnpj IN (?)",
-        [cnpjs],
+        [cnpjs], // Passa o array diretamente
       );
       return rows as Array<Object>;
     } catch (error) {

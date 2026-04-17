@@ -18,8 +18,12 @@ const main = async (): Promise<void> => {
     const clientsDataFromDB =
       await ClientsController.getClientsDataFromDB(clients);
 
-    logger.info("Dados dos clientes obtidos do banco de dados:");
-    console.log(clientsDataFromDB);
+    if (!clientsDataFromDB || clientsDataFromDB.length === 0) {
+      logger.warning("Nenhum dado de cliente encontrado no banco de dados.");
+    }
+    logger.info(
+      `Número de clientes obtidos do banco de dados: ${clientsDataFromDB.length}`,
+    );
   } catch (error) {
     logger.error("An error occurred: " + error);
   }
