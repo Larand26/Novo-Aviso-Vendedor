@@ -23,6 +23,14 @@ abstract class ClientsService {
       };
     }
   }
+
+  static async getClientsDataFromDB(): Promise<Array<Object>> {
+    try {
+      return [];
+    } catch (error) {
+      throw new Error(error instanceof Error ? error.message : String(error));
+    }
+  }
 }
 
 export default ClientsService;
