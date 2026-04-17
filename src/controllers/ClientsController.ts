@@ -9,8 +9,10 @@ abstract class ClientsController {
     return await ClientsService.getClientsDataFromApi();
   }
 
-  static async getClientsDataFromDB(): Promise<Array<object>> {
-    return await ClientsService.getClientsDataFromDB();
+  static async getClientsDataFromDB(
+    clients: Array<object>,
+  ): Promise<Array<object>> {
+    return await ClientsService.getClientsDataFromDB(clients);
   }
 }
 

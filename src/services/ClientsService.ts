@@ -2,6 +2,8 @@ import axios from "axios";
 
 import configs from "../config/internalApi.js";
 
+import MySqlDb from "../db/MySql.js";
+
 abstract class ClientsService {
   static async getClientsDataFromApi(): Promise<{
     success: boolean;
@@ -24,9 +26,25 @@ abstract class ClientsService {
     }
   }
 
-  static async getClientsDataFromDB(): Promise<Array<Object>> {
+  static async getClientsDataFromDB(
+    clients: Array<{ ENTI_CNPJCPF?: string; [key: string]: any }>,
+  ): Promise<Array<Object>> {
     try {
-      return [];
+      // Pega apenas os CNPJs válidos (filtra vazios/undefined)
+      const cnpjs = clients
+        .map((client) => client?.ENTI_CNPJCPF)
+        .filter((cnpj) => Boolean(cnpj));
+
+      // Se não sobrou nenhum CNPJ válido, retorna lista vazia para evitar erro no SQL
+      if (cnpjs.length === 0) {
+        return [];
+      }
+
+      const [rows] = await MySqlDb.query(
+        "SELECT * FROM clientes_aviso_vendedor WHERE cnpj IN (?)",
+        [cnpjs],
+      );
+      return rows as Array<Object>;
     } catch (error) {
       throw new Error(error instanceof Error ? error.message : String(error));
     }

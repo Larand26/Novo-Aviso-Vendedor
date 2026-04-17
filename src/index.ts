@@ -14,8 +14,12 @@ const main = async (): Promise<void> => {
     logger.success("Dados dos clientes obtidos com sucesso!");
 
     const clients = clientsDataFromApi.data || [];
+    logger.info(`Número de clientes obtidos da API: ${clients.length}`);
+    const clientsDataFromDB =
+      await ClientsController.getClientsDataFromDB(clients);
 
-    const clientsDataFromDB = await ClientsController.getClientsDataFromDB();
+    logger.info("Dados dos clientes obtidos do banco de dados:");
+    console.log(clientsDataFromDB);
   } catch (error) {
     logger.error("An error occurred: " + error);
   }
