@@ -17,4 +17,4 @@ Fluxo do projeto:
 
 6. Gerar um relatório separado com os erros e sucessos do processo, para análise posterior.
 
-dependencias: axios, mysql2, dotenv, winston (para logging), moment (para manipulação de datas), chalk, node-cron (para agendamento de tarefas)
+dependencias: axios, mysql2, dotenv, winston (para logging), moment (para manipulação de datas), chalk, node-cron (para agendamento de tarefas), pdfkit (para geração de relatórios em PDF)
