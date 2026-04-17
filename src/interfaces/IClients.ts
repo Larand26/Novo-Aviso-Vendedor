@@ -14,6 +14,12 @@ export interface IClientApi {
 }
 
 export interface IClientDB {
+  id: number;
+  data_criacao: Date;
+  cliente: string;
   cnpj: string;
-  [key: string]: any;
+  vendedor_id: string;
+  deal_id: string;
+  organization_id: string;
+  task_id: string;
 }
