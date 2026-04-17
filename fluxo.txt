@@ -1,0 +1,20 @@
+Fluxo do projeto:
+
+1. Pegar os dados do cliente na api interna
+
+2. verificar quais desses clientes estão cadastrados no banco de dados MySQL
+
+3. Para o cliente não cadastrado:
+    Criar ou pegar a empresa
+    Criar ou pegar a negociação
+    Criar ou atualizar a tarefa
+
+4. Para o cliente cadastrado:
+    Criar ou atualizar a tarefa
+
+5. Cadastrar os clientes no banco de dados MySQL:
+    id, data_criacao, client, cnpj,vendedor_id, deal_id, organization_id, task_id
+
+6. Gerar um relatório separado com os erros e sucessos do processo, para análise posterior.
+
+dependencias: axios, mysql2, dotenv, winston (para logging), moment (para manipulação de datas), chalk
