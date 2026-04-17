@@ -1,9 +1,20 @@
+import axios from "axios";
+
+import configs from "../config/internalApi.js";
+
 abstract class ClientsService {
-  static async getClientsDataFromApi(): Promise<Object> {
+  static async getClientsDataFromApi(): Promise<{
+    success: boolean;
+    data?: Array<Object>;
+    error?: string;
+  }> {
     try {
+      const response = await axios.get(`${configs.apiUrl}/crm/pegar-clientes`, {
+        timeout: configs.timeout,
+      });
       return {
         success: true,
-        data: [],
+        data: response.data?.data || [],
       };
     } catch (error) {
       return {
