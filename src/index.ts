@@ -1,5 +1,5 @@
 import ClientsController from "./controllers/ClientsController.js";
-import { logger } from "./utils/Logger.js";
+import { logger } from "./utils/logger.js";
 
 const main = async (): Promise<void> => {
   try {
