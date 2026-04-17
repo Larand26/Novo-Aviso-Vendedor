@@ -7,7 +7,7 @@ import MySqlDb from "../db/MySql.js";
 abstract class ClientsService {
   static async getClientsDataFromApi(): Promise<{
     success: boolean;
-    data?: Array<Object>;
+    data?: Array<any>;
     error?: string;
   }> {
     try {
@@ -35,7 +35,6 @@ abstract class ClientsService {
         .map((client) => client?.ENTI_CNPJCPF)
         .filter((cnpj) => Boolean(cnpj));
 
-      cnpjs.push("09112200000100");
       // Se não sobrou nenhum CNPJ válido, retorna lista vazia para evitar erro no SQL
       if (cnpjs.length === 0) {
         return [];

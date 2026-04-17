@@ -1,4 +1,5 @@
 import ClientsController from "./controllers/ClientsController.js";
+import Utils from "./utils/Utils.js";
 import { logger } from "./utils/logger.js";
 
 const main = async (): Promise<void> => {
@@ -10,6 +11,7 @@ const main = async (): Promise<void> => {
       logger.error(
         "Falha ao obter os dados dos clientes: " + clientsDataFromApi.error,
       );
+      return;
     }
     logger.success("Dados dos clientes obtidos com sucesso!");
 
@@ -24,6 +26,12 @@ const main = async (): Promise<void> => {
     logger.info(
       `Número de clientes obtidos do banco de dados: ${clientsDataFromDB.length}`,
     );
+
+    const filteredClients = Utils.filterClientsByCNPJCPF(
+      clients,
+      clientsDataFromDB,
+    );
+    logger.info(`Número de clientes filtrados: ${filteredClients.length}`);
   } catch (error) {
     logger.error("An error occurred: " + error);
   }
