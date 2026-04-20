@@ -1,7 +1,16 @@
 import axios from "axios";
 import rdConfig from "../config/rdConfig.js";
+import { getSellerIdByCode } from "../assets/sellers.js";
 
 abstract class RDService {
+  static async getSeller(sellerId: number): Promise<string | null> {
+    try {
+      return getSellerIdByCode(sellerId);
+    } catch (error) {
+      console.error("Erro ao obter seller do RD Station:", error);
+      return null;
+    }
+  }
   static async getOrganizations(clientName: string): Promise<string | null> {
     try {
       // Lógica para obter organizações do CRM RD Station

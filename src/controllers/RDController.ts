@@ -1,6 +1,9 @@
 import RDService from "../services/RDService.js";
 
 abstract class RDController {
+  static async getSeller(sellerId: number): Promise<string | null> {
+    return await RDService.getSeller(sellerId);
+  }
   static async getOrganizations(clientName: string): Promise<string | null> {
     return await RDService.getOrganizations(clientName);
   }

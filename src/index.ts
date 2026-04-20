@@ -39,6 +39,15 @@ const main = async (): Promise<void> => {
 
     for (const client of filteredClients) {
       const c = new Client(client.PEDOR_RAZAOSOCIAL, client.ENTI_CNPJCPF);
+
+      // Pega o sellerId do cliente
+      let sellerId = await RDController.getSeller(client.ID_CODVENDEDOR);
+      if (!sellerId) {
+        sellerId = "62990442a8e97e000e3879a4"; // ID do vendedor padrão
+      }
+
+      c.updateSellerId(sellerId); // Atualiza o sellerId do cliente
+
       // Cria ou pega a organização no CRM
       let organizationId = await RDController.getOrganizations(
         client.PEDOR_RAZAOSOCIAL,
@@ -64,9 +73,11 @@ const main = async (): Promise<void> => {
         dealId = await RDController.createDeal(
           client,
           organizationId,
-          "<ID_DO_VENDEDOR>",
+          sellerId,
         );
       }
+
+      c.updateDealId(dealId || ""); // Atualiza o dealId do cliente
 
       if (!dealId) {
         logger.error(
