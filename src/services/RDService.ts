@@ -82,6 +82,106 @@ abstract class RDService {
       return null;
     }
   }
+
+  static async getDeals(organizationId: string): Promise<string | null> {
+    try {
+      // Lógica para obter deals do CRM RD Station
+      const response = await axios.get(`${rdConfig.apiUrl}/deals`, {
+        params: {
+          token: rdConfig.token,
+          organization_id: organizationId,
+        },
+        timeout: rdConfig.timeout,
+      });
+
+      if (
+        response.data &&
+        response.data.deals &&
+        response.data.deals.length > 0
+      ) {
+        return response.data.deals[0].id;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Erro ao obter deals do RD Station:", error);
+      return null;
+    }
+  }
+
+  private static async rdPhones(
+    client: any,
+  ): Promise<{ number: string; type: string }[]> {
+    const phones: { number: string; type: string }[] = [];
+
+    if (client.ENTI_TELEFONE) {
+      phones.push({ number: client.ENTI_TELEFONE, type: "cellphone" });
+    }
+    if (client.ENTI_TELEFONE2) {
+      phones.push({ number: client.ENTI_TELEFONE2, type: "cellphone" });
+    }
+    return phones;
+  }
+
+  private static async rdEmail(email: string): Promise<string> {
+    const emailRegex = new RegExp(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    );
+    if (emailRegex.test(email)) {
+      return email;
+    }
+    return "exemplo@email.com";
+  }
+
+  static async createDeal(
+    client: any,
+    organizationId: string,
+    idVendedor: string,
+  ): Promise<string | null> {
+    try {
+      const response = await axios.post(
+        `${rdConfig.apiUrl}/deals`,
+        {
+          contacts: [
+            {
+              name: client.PEDOR_RAZAOSOCIAL,
+              email: await this.rdEmail(client.ENTI_EMAIL),
+              phones: await this.rdPhones(client),
+            },
+          ],
+          organizationId: {
+            id: organizationId,
+          },
+          deal: { name: client.PEDOR_RAZAOSOCIAL },
+          distribution_settings: {
+            owner: {
+              email: "exemplo@email.com",
+              id: idVendedor,
+              type: "user",
+            },
+          },
+        },
+        {
+          params: {
+            token: rdConfig.token,
+          },
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          timeout: rdConfig.timeout,
+        },
+      );
+
+      if (response.data && response.data.deal) {
+        return response.data.id;
+      }
+      return null;
+    } catch (error) {
+      console.error("Erro ao criar deal no RD Station:", error);
+      return null;
+    }
+  }
 }
 
 export default RDService;

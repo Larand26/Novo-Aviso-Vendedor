@@ -57,6 +57,17 @@ const main = async (): Promise<void> => {
 
       c.updateOrganizationId(organizationId || ""); // Atualiza o organizationId do cliente
 
+      // Cria ou pega a Deal no CRM
+      let dealId = await RDController.getDeals(client.PEDOR_RAZAOSOCIAL);
+
+      if (!dealId) {
+        dealId = await RDController.createDeal(
+          client,
+          organizationId,
+          "<ID_DO_VENDEDOR>",
+        );
+      }
+
       c.infos();
     }
   } catch (error) {
