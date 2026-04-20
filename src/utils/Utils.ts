@@ -1,8 +1,10 @@
+import type { IClientApi } from "../interfaces/IClients.js";
+
 abstract class Utils {
   static filterClientsByCNPJCPF(
-    clientsFromApi: Array<{ ENTI_CNPJCPF: string }>,
+    clientsFromApi: Array<IClientApi>,
     clientsFromDB: Array<{ cnpj: string }>,
-  ): Array<{ ENTI_CNPJCPF: string }> {
+  ): Array<IClientApi> {
     return clientsFromApi.filter((apiClient) => {
       return !clientsFromDB.some(
         (dbClient) => dbClient.cnpj === apiClient.ENTI_CNPJCPF,
