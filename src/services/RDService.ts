@@ -136,7 +136,7 @@ abstract class RDService {
   static async createDeal(
     client: any,
     organizationId: string,
-    idVendedor: string,
+    sellerId: string,
   ): Promise<string | null> {
     try {
       const response = await axios.post(
@@ -156,7 +156,7 @@ abstract class RDService {
           distribution_settings: {
             owner: {
               email: "exemplo@email.com",
-              id: idVendedor,
+              id: sellerId,
               type: "user",
             },
           },

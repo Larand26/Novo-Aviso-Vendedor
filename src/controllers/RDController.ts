@@ -13,9 +13,9 @@ abstract class RDController {
   static async createDeal(
     client: any,
     organizationId: string,
-    idVendedor: string,
+    sellerId: string,
   ): Promise<string | null> {
-    return await RDService.createDeal(client, organizationId, idVendedor);
+    return await RDService.createDeal(client, organizationId, sellerId);
   }
 }
 export default RDController;

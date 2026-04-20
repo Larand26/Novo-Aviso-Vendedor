@@ -1,7 +1,7 @@
 import chalk from "chalk";
 
 class Client {
-  public vendedorId: string | null;
+  public sellerId: string | null;
   public dealId: string | null;
   public organizationId: string | null;
   public taskId: string | null;
@@ -13,7 +13,7 @@ class Client {
     this.name = name;
     this.cnpj = cnpj;
 
-    this.vendedorId = null; // Inicializa o vendedorId como null
+    this.sellerId = null; // Inicializa o sellerId como null
     this.dealId = null; // Inicializa o dealId como null
     this.organizationId = null; // Inicializa o organizationId como null
     this.taskId = null; // Inicializa o taskId como null
@@ -29,7 +29,7 @@ class Client {
     console.log(divider);
     console.log(chalk.bold.bgBlue.white(" CLIENTE "), chalk.bold(this.name));
     console.log(`${label("CNPJ")}: ${chalk.whiteBright(this.cnpj)}`);
-    console.log(`${label("Vendedor ID")}: ${formatValue(this.vendedorId)}`);
+    console.log(`${label("Vendedor ID")}: ${formatValue(this.sellerId)}`);
     console.log(`${label("Deal ID")}: ${formatValue(this.dealId)}`);
     console.log(
       `${label("Organization ID")}: ${formatValue(this.organizationId)}`,
@@ -38,8 +38,8 @@ class Client {
     console.log(divider);
   }
 
-  updateVendedorId(vendedorId: string): void {
-    this.vendedorId = vendedorId;
+  updateSellerId(sellerId: string): void {
+    this.sellerId = sellerId;
   }
 
   updateDealId(dealId: string): void {
