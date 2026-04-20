@@ -191,6 +191,38 @@ abstract class RDService {
       return null;
     }
   }
+  static async updateDeal(
+    dealId: string,
+    sellerId: string,
+  ): Promise<{ success: boolean }> {
+    try {
+      const response = await axios.put(
+        `${rdConfig.apiUrl}/deals/${dealId}`,
+        {
+          deal: { user_id: sellerId },
+        },
+        {
+          params: {
+            token: rdConfig.token,
+          },
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          timeout: rdConfig.timeout,
+        },
+      );
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false };
+      console.error("Erro ao atualizar deal no RD Station:", error);
+    }
+  }
 }
 
 export default RDService;

@@ -84,6 +84,13 @@ const main = async (): Promise<void> => {
         continue; // Pula para o próximo cliente
       }
 
+      const updateResult = await RDController.updateDeal(dealId, sellerId);
+      if (!updateResult.success) {
+        logger.error(
+          `Falha ao atualizar a deal para o cliente ${client.PEDOR_RAZAOSOCIAL}`,
+        );
+      }
+
       c.updateDealId(dealId || ""); // Atualiza o dealId do cliente
 
       c.infos();
