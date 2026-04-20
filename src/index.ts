@@ -77,14 +77,14 @@ const main = async (): Promise<void> => {
         );
       }
 
-      c.updateDealId(dealId || ""); // Atualiza o dealId do cliente
-
       if (!dealId) {
         logger.error(
           `Falha ao criar ou obter a deal para o cliente ${client.PEDOR_RAZAOSOCIAL}`,
         );
         continue; // Pula para o próximo cliente
       }
+
+      c.updateDealId(dealId || ""); // Atualiza o dealId do cliente
 
       c.infos();
     }
