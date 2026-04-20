@@ -1,3 +1,5 @@
+import chalk from "chalk";
+
 class Client {
   public vendedorId: string | null;
   public dealId: string | null;
@@ -18,12 +20,22 @@ class Client {
   }
 
   infos(): void {
-    console.log(`Nome: ${this.name}`);
-    console.log(`CNPJ: ${this.cnpj}`);
-    console.log(`Vendedor ID: ${this.vendedorId}`);
-    console.log(`Deal ID: ${this.dealId}`);
-    console.log(`Organization ID: ${this.organizationId}`);
-    console.log(`Task ID: ${this.taskId}`);
+    const formatValue = (value: string | null): string =>
+      value ? chalk.whiteBright(value) : chalk.gray("- pendente -");
+
+    const label = (text: string): string => chalk.cyanBright(text.padEnd(16));
+    const divider = chalk.gray("-".repeat(52));
+
+    console.log(divider);
+    console.log(chalk.bold.bgBlue.white(" CLIENTE "), chalk.bold(this.name));
+    console.log(`${label("CNPJ")}: ${chalk.whiteBright(this.cnpj)}`);
+    console.log(`${label("Vendedor ID")}: ${formatValue(this.vendedorId)}`);
+    console.log(`${label("Deal ID")}: ${formatValue(this.dealId)}`);
+    console.log(
+      `${label("Organization ID")}: ${formatValue(this.organizationId)}`,
+    );
+    console.log(`${label("Task ID")}: ${formatValue(this.taskId)}`);
+    console.log(divider);
   }
 
   updateVendedorId(vendedorId: string): void {
