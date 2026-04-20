@@ -48,6 +48,13 @@ const main = async (): Promise<void> => {
         organizationId = await RDController.createOrganization(client);
       }
 
+      if (!organizationId) {
+        logger.error(
+          `Falha ao criar ou obter a organização para o cliente ${client.PEDOR_RAZAOSOCIAL}`,
+        );
+        continue; // Pula para o próximo cliente
+      }
+
       c.updateOrganizationId(organizationId || ""); // Atualiza o organizationId do cliente
 
       c.infos();
