@@ -1,11 +1,11 @@
 class Client {
+  public vendedorId: string | null;
+  public dealId: string | null;
+  public organizationId: string | null;
+  public taskId: string | null;
   constructor(
     public name: string,
     public cnpj: string,
-    public vendedorId: string | null,
-    public dealId: string | null,
-    public organizationId: string | null,
-    public taskId: string | null,
   ) {
     // Contrutor para inicializar as propriedades do cliente
     this.name = name;

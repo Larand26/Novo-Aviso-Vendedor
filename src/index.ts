@@ -2,6 +2,7 @@ import ClientsController from "./controllers/ClientsController.js";
 import Utils from "./utils/Utils.js";
 import Client from "./models/Client.js";
 import { logger } from "./utils/logger.js";
+import RDController from "./controllers/RDController.js";
 
 const main = async (): Promise<void> => {
   try {
@@ -35,17 +36,22 @@ const main = async (): Promise<void> => {
       clientsDataFromDB,
     );
     logger.info(`Número de clientes filtrados: ${filteredClients.length}`);
-    const clients = filteredClients.map(
-      (clientData) =>
-        new Client(
-          clientData.PEDOR_RAZAOSOCIAL,
-          clientData.ENTI_CNPJCPF,
-          null,
-          null,
-          null,
-          null,
-        ),
-    );
+
+    for (const client of filteredClients) {
+      const c = new Client(client.PEDOR_RAZAOSOCIAL, client.ENTI_CNPJCPF);
+      // Cria ou pega a organização no CRM
+      let organizationId = await RDController.getOrganizations(
+        client.PEDOR_RAZAOSOCIAL,
+      );
+
+      if (!organizationId) {
+        organizationId = await RDController.createOrganization(client);
+      }
+
+      c.updateOrganizationId(organizationId || ""); // Atualiza o organizationId do cliente
+
+      c.infos();
+    }
   } catch (error) {
     logger.error("An error occurred: " + error);
   }
