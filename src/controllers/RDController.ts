@@ -26,5 +26,14 @@ abstract class RDController {
   ): Promise<{ success: boolean }> {
     return await RDService.updateDeal(dealId, sellerId);
   }
+  static async getTask(dealId: string): Promise<string | null> {
+    return await RDService.getTask(dealId);
+  }
+  static async createTask(
+    dealId: string,
+    sellerId: string,
+  ): Promise<string | null> {
+    return await RDService.createTask(dealId, sellerId);
+  }
 }
 export default RDController;

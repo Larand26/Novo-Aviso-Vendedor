@@ -93,6 +93,22 @@ const main = async (): Promise<void> => {
 
       c.updateDealId(dealId || ""); // Atualiza o dealId do cliente
 
+      // pega ou Cria o as taks no CRM
+      let taskId = await RDController.getTask(dealId);
+
+      if (!taskId) {
+        taskId = await RDController.createTask(dealId, sellerId);
+      }
+
+      if (!taskId) {
+        logger.error(
+          `Falha ao criar ou obter a task para o cliente ${client.PEDOR_RAZAOSOCIAL}`,
+        );
+        continue; // Pula para o próximo cliente
+      }
+
+      c.updateTaskId(taskId || ""); // Atualiza o taskId do cliente
+
       c.infos();
     }
   } catch (error) {

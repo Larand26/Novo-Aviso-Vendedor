@@ -219,8 +219,74 @@ abstract class RDService {
         return { success: false };
       }
     } catch (error) {
-      return { success: false };
       console.error("Erro ao atualizar deal no RD Station:", error);
+      return { success: false };
+    }
+  }
+
+  static async getTask(dealId: string): Promise<string | null> {
+    try {
+      const response = await axios.get(`${rdConfig.apiUrl}/tasks`, {
+        params: {
+          deal_id: dealId,
+          done: false,
+          type: "call",
+          token: rdConfig.token,
+        },
+      });
+
+      if (response.data && response.data.total > 0) {
+        return response.data.tasks[0].id;
+      }
+      return null;
+    } catch (error) {
+      console.error("Erro ao obter tasks do RD Station:", error);
+      return null;
+    }
+  }
+
+  static async createTask(
+    dealId: string,
+    sellerId: string,
+  ): Promise<string | null> {
+    try {
+      const taskDate = new Date();
+      taskDate.setDate(taskDate.getDate() + 30);
+      const dateTaskDate = taskDate.toISOString().split("T")[0];
+
+      const response = await axios.post(
+        `${rdConfig.apiUrl}/tasks`,
+        {
+          task: {
+            subject: "Ligar para o cliente",
+            type: "call",
+            deal_id: dealId,
+            user_ids: [sellerId],
+            done: false,
+            notes: "",
+            date: dateTaskDate,
+            hour: "17:00",
+          },
+        },
+        {
+          params: {
+            token: rdConfig.token,
+          },
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          timeout: rdConfig.timeout,
+        },
+      );
+
+      if (response.data && response.data.task) {
+        return response.data.id;
+      }
+      return null;
+    } catch (error) {
+      console.error("Erro ao criar task no RD Station:", error);
+      return null;
     }
   }
 }
