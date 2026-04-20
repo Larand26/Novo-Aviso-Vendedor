@@ -68,6 +68,13 @@ const main = async (): Promise<void> => {
         );
       }
 
+      if (!dealId) {
+        logger.error(
+          `Falha ao criar ou obter a deal para o cliente ${client.PEDOR_RAZAOSOCIAL}`,
+        );
+        continue; // Pula para o próximo cliente
+      }
+
       c.infos();
     }
   } catch (error) {
