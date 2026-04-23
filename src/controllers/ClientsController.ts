@@ -1,5 +1,9 @@
 import ClientsService from "../services/ClientsService.js";
-import type { IClientApi, IClientDB } from "../interfaces/IClients.js";
+import type {
+  IClientApi,
+  IClientDB,
+  IClientModel,
+} from "../interfaces/IClients.js";
 
 abstract class ClientsController {
   static async getClientsDataFromApi(): Promise<{
@@ -14,6 +18,13 @@ abstract class ClientsController {
     clients: Array<IClientApi>,
   ): Promise<Array<IClientDB>> {
     return await ClientsService.getClientsDataFromDB(clients);
+  }
+
+  static async saveClientToDB(client: IClientModel): Promise<{
+    success: boolean;
+    error?: string;
+  }> {
+    return await ClientsService.saveClientToDB(client);
   }
 }
 

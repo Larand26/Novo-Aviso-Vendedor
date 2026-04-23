@@ -110,6 +110,20 @@ const main = async (): Promise<void> => {
       c.updateTaskId(taskId || ""); // Atualiza o taskId do cliente
 
       c.infos();
+
+      // Salva o cliente no banco de dados
+      const saveResult = await ClientsController.saveClientToDB(c);
+
+      if (!saveResult.success) {
+        logger.error(
+          `Falha ao salvar o cliente ${client.PEDOR_RAZAOSOCIAL} no banco de dados: ${saveResult.error}`,
+        );
+        continue; // Pula para o próximo cliente
+      } else {
+        logger.success(
+          `Cliente ${client.PEDOR_RAZAOSOCIAL} salvo com sucesso no banco de dados!`,
+        );
+      }
     }
   } catch (error) {
     logger.error("An error occurred: " + error);

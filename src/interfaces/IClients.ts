@@ -23,3 +23,12 @@ export interface IClientDB {
   organization_id: string;
   task_id: string;
 }
+
+export interface IClientModel {
+  name: string;
+  cnpj: string;
+  sellerId: string | null;
+  dealId: string | null;
+  organizationId: string | null;
+  taskId: string | null;
+}
