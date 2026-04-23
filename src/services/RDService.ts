@@ -92,13 +92,14 @@ abstract class RDService {
     }
   }
 
-  static async getDeals(organizationId: string): Promise<string | null> {
+  static async getDeals(name: string): Promise<string | null> {
     try {
       // Lógica para obter deals do CRM RD Station
       const response = await axios.get(`${rdConfig.apiUrl}/deals`, {
         params: {
           token: rdConfig.token,
-          organization_id: organizationId,
+          name: name,
+          exact_name: true,
         },
         timeout: rdConfig.timeout,
       });
