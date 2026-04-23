@@ -289,6 +289,50 @@ abstract class RDService {
       return null;
     }
   }
+
+  static async updateTask(
+    taskId: string,
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      const newTaskDate = new Date();
+      newTaskDate.setDate(newTaskDate.getDate() + 30);
+      const dateTaskDate = newTaskDate.toISOString().split("T")[0];
+
+      const response = await axios.put(
+        `${rdConfig.apiUrl}/tasks/${taskId}`,
+        {
+          task: {
+            date: dateTaskDate,
+            hour: "17:00",
+          },
+        },
+        {
+          params: {
+            token: rdConfig.token,
+          },
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          timeout: rdConfig.timeout,
+        },
+      );
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return {
+          success: false,
+          error: `Erro ao atualizar task no RD Station: status ${response.status}`,
+        };
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
 }
 
 export default RDService;

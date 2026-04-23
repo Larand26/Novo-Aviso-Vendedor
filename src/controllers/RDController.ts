@@ -35,5 +35,19 @@ abstract class RDController {
   ): Promise<string | null> {
     return await RDService.createTask(dealId, sellerId);
   }
+
+  static async updateTask(
+    taskId: string,
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      await RDService.updateTask(taskId);
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
 }
 export default RDController;

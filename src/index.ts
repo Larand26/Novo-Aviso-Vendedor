@@ -20,7 +20,7 @@ const main = async (): Promise<void> => {
     logger.info(
       `Número de clientes obtidos da API: ${clientsDataFromApi.data?.length || 0}`,
     );
-    const clientsDataFromDB = await ClientsController.getClientsDataFromDB(
+    let clientsDataFromDB = await ClientsController.getClientsDataFromDB(
       clientsDataFromApi.data || [],
     );
 
@@ -122,6 +122,43 @@ const main = async (): Promise<void> => {
       } else {
         logger.success(
           `Cliente ${client.PEDOR_RAZAOSOCIAL} salvo com sucesso no banco de dados!`,
+        );
+      }
+    }
+
+    clientsDataFromDB = await ClientsController.getClientsDataFromDB(
+      clientsDataFromApi.data || [],
+    );
+    logger.info(
+      `Número de clientes no banco de dados após processamento: ${clientsDataFromDB.length}`,
+    );
+
+    // Atualiza as Tasks no CRM
+    for (const client of clientsDataFromDB) {
+      const c = new Client(client.cliente, client.cnpj);
+      c.updateSellerId(client.vendedor_id);
+      c.updateOrganizationId(client.organization_id);
+      c.updateDealId(client.deal_id);
+      c.updateTaskId(client.task_id);
+
+      c.infos();
+
+      if (!c.taskId) {
+        logger.warning(
+          `Cliente ${client.cliente} não possui taskId, pulando atualização de task.`,
+        );
+        continue; // Pula para o próximo cliente
+      }
+
+      const updateTaskResult = await RDController.updateTask(c.taskId);
+      if (!updateTaskResult.success) {
+        logger.error(
+          `Falha ao atualizar a task para o cliente ${client.cliente}: ${updateTaskResult.error}`,
+        );
+        continue; // Pula para o próximo cliente
+      } else {
+        logger.success(
+          `Task para o cliente ${client.cliente} atualizada com sucesso!`,
         );
       }
     }
