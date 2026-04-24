@@ -11,8 +11,8 @@ abstract class RDController {
   static async createOrganization(client: IClientApi): Promise<string | null> {
     return await RDService.createOrganization(client);
   }
-  static async getDeals(name: string): Promise<string | null> {
-    return await RDService.getDeals(name);
+  static async getDeals(clientName: string): Promise<string | null> {
+    return await RDService.getDeals(clientName);
   }
   static async createDeal(
     client: IClientApi,
