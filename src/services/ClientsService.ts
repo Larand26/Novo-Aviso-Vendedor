@@ -56,7 +56,8 @@ abstract class ClientsService {
       );
       return rows as Array<IClientDB>;
     } catch (error) {
-      throw new Error(error instanceof Error ? error.message : String(error));
+      console.error("Erro ao buscar clientes no banco de dados:", error);
+      return []; // Retorna lista vazia em caso de erro para evitar falhas no processamento
     }
   }
 
