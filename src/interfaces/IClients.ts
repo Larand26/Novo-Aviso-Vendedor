@@ -11,6 +11,8 @@ export interface IClientApi {
   ENTI_DDD: number;
   ENTI_DDD_FAX: string;
   ENTI_DDD_CELULAR: string;
+  ENTI_TELEFONE: string;
+  ENTI_TELEFONE2: string;
 }
 
 export interface IClientDB {

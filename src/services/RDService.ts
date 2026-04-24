@@ -1,6 +1,7 @@
 import axios from "axios";
 import rdConfig from "../config/rdConfig.js";
 import { getSellerIdByCode } from "../assets/sellers.js";
+import type { IClientApi } from "../interfaces/IClients.js";
 
 abstract class RDService {
   static async getSeller(sellerId: number): Promise<string | null> {
@@ -38,7 +39,7 @@ abstract class RDService {
     }
   }
 
-  static async createOrganization(client: any): Promise<string | null> {
+  static async createOrganization(client: IClientApi): Promise<string | null> {
     try {
       // Lógica para criar organização no CRM RD Station
       const response = await axios.post(
@@ -120,7 +121,7 @@ abstract class RDService {
   }
 
   private static async rdPhones(
-    client: any,
+    client: IClientApi,
   ): Promise<{ number: string; type: string }[]> {
     const phones: { number: string; type: string }[] = [];
 
@@ -144,7 +145,7 @@ abstract class RDService {
   }
 
   static async createDeal(
-    client: any,
+    client: IClientApi,
     organizationId: string,
     sellerId: string,
   ): Promise<string | null> {

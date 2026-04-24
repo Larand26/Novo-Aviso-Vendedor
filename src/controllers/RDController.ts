@@ -1,4 +1,5 @@
 import RDService from "../services/RDService.js";
+import type { IClientApi } from "../interfaces/IClients.js";
 
 abstract class RDController {
   static async getSeller(sellerId: number): Promise<string | null> {
@@ -7,14 +8,14 @@ abstract class RDController {
   static async getOrganizations(clientName: string): Promise<string | null> {
     return await RDService.getOrganizations(clientName);
   }
-  static async createOrganization(client: any): Promise<string | null> {
+  static async createOrganization(client: IClientApi): Promise<string | null> {
     return await RDService.createOrganization(client);
   }
   static async getDeals(name: string): Promise<string | null> {
     return await RDService.getDeals(name);
   }
   static async createDeal(
-    client: any,
+    client: IClientApi,
     organizationId: string,
     sellerId: string,
   ): Promise<string | null> {
