@@ -125,11 +125,11 @@ abstract class RDService {
   ): Promise<{ number: string; type: string }[]> {
     const phones: { number: string; type: string }[] = [];
 
-    if (client.ENTI_TELEFONE) {
-      phones.push({ number: client.ENTI_TELEFONE, type: "cellphone" });
+    if (client.client_phone) {
+      phones.push({ number: client.client_phone, type: "cellphone" });
     }
-    if (client.ENTI_TELEFONE2) {
-      phones.push({ number: client.ENTI_TELEFONE2, type: "cellphone" });
+    if (client.client_cellphone) {
+      phones.push({ number: client.client_cellphone, type: "cellphone" });
     }
     return phones;
   }
@@ -253,7 +253,7 @@ abstract class RDService {
   ): Promise<string | null> {
     try {
       const taskDate = new Date();
-      taskDate.setDate(taskDate.getDate() + 30);
+      taskDate.setDate(taskDate.getDate() + rdConfig.taskDelayDays);
       const dateTaskDate = taskDate.toISOString().split("T")[0];
 
       const response = await axios.post(
