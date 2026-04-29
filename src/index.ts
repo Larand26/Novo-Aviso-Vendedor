@@ -43,7 +43,10 @@ const main = async (): Promise<void> => {
       // Pega o sellerId do cliente
       let sellerId = await RDController.getSeller(client.salesperson_id);
       if (!sellerId) {
-        sellerId = "62990442a8e97e000e3879a4"; // ID do vendedor padrão
+        logger.error(
+          `Falha ao obter o sellerId para o cliente ${client.client_name} com salesperson_id ${client.salesperson_id}`,
+        );
+        continue; // Pula para o próximo cliente
       }
 
       c.updateSellerId(sellerId); // Atualiza o sellerId do cliente
