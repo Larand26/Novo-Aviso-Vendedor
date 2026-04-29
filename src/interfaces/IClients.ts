@@ -1,18 +1,15 @@
 export interface IClientApi {
-  ID_CODENTIDADE: number;
-  PEDOR_RAZAOSOCIAL: string;
-  ID_CODVENDEDOR: number;
-  ENTI_CNPJCPF: string;
-  ENTI_EMAIL: string;
-  ENTI_CELULAR: string;
-  ENTI_FONE: string;
-  ID_UNIDFEDSIGLA: string;
-  CIDA_NOME: string;
-  ENTI_DDD: number;
-  ENTI_DDD_FAX: string;
-  ENTI_DDD_CELULAR: string;
-  ENTI_TELEFONE: string;
-  ENTI_TELEFONE2: string;
+  client_id: number;
+  client_name: string;
+  salesperson_id: number;
+  client_cnpj: string;
+  client_email: string;
+  client_cellphone: string;
+  client_phone: string;
+  state_code: string;
+  city_name: string;
+  client_ddd: number;
+  client_ddd_fax: string;
 }
 
 export interface IClientDB {

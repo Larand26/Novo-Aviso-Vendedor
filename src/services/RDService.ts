@@ -50,25 +50,25 @@ abstract class RDService {
               {
                 //CNPJ
                 custom_field_id: "66201cb5ccd2b20012436271",
-                value: client.ENTI_CNPJCPF,
+                value: client.client_cnpj,
               },
               {
                 //Razão Social
                 custom_field_id: "666c3ab5a6215d00190b7597",
-                value: client.PEDOR_RAZAOSOCIAL,
+                value: client.client_name,
               },
               {
                 //UF
                 custom_field_id: "66210743a05ab90012860c52",
-                value: client.ID_UNIDFEDSIGLA,
+                value: client.state_code,
               },
               {
                 //Cidade
                 custom_field_id: "66210724ed1460000ece9e71",
-                value: client.CIDA_NOME,
+                value: client.city_name,
               },
             ],
-            name: client.PEDOR_RAZAOSOCIAL,
+            name: client.client_name,
           },
         },
         {
@@ -155,15 +155,15 @@ abstract class RDService {
         {
           contacts: [
             {
-              name: client.PEDOR_RAZAOSOCIAL,
-              email: await this.rdEmail(client.ENTI_EMAIL),
+              name: client.client_name,
+              email: await this.rdEmail(client.client_email),
               phones: await this.rdPhones(client),
             },
           ],
           organizationId: {
             id: organizationId,
           },
-          deal: { name: client.PEDOR_RAZAOSOCIAL },
+          deal: { name: client.client_name },
           distribution_settings: {
             owner: {
               email: "exemplo@email.com",

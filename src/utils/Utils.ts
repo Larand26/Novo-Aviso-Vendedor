@@ -7,7 +7,7 @@ abstract class Utils {
   ): Array<IClientApi> {
     return clientsFromApi.filter((apiClient) => {
       return !clientsFromDB.some(
-        (dbClient) => dbClient.cnpj === apiClient.ENTI_CNPJCPF,
+        (dbClient) => dbClient.cnpj === apiClient.client_cnpj,
       );
     });
   }

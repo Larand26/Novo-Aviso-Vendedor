@@ -40,7 +40,7 @@ abstract class ClientsService {
       const cnpjs = [
         ...new Set(
           clients
-            .map((client) => client?.ENTI_CNPJCPF)
+            .map((client) => client?.client_cnpj)
             .filter((cnpj): cnpj is string => Boolean(cnpj)),
         ),
       ];
