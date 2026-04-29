@@ -27,7 +27,7 @@ abstract class ClientsService {
     error?: string;
   }> {
     try {
-      const response = await axios.get(`${configs.apiUrl}/crm/pegar-clientes`, {
+      const response = await axios.get(`${configs.apiUrl}`, {
         timeout: configs.timeout,
       });
       return {
