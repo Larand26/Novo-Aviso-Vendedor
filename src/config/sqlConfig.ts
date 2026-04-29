@@ -7,6 +7,7 @@ interface sqlconfig {
   password: string;
   database: string;
   port: number;
+  table: string;
 }
 
 const sqlConfig: sqlconfig = {
@@ -15,6 +16,7 @@ const sqlConfig: sqlconfig = {
   password: process.env.DB_PASSWORD_MYSQL || "password",
   database: process.env.DB_DATABASE_MYSQL || "mydatabase",
   port: parseInt(process.env.DB_PORT_MYSQL || "3306", 10),
+  table: process.env.DB_TABLE_MYSQL || "",
 };
 
 export default sqlConfig;

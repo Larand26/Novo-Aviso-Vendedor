@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import configs from "../config/internalApi.js";
+import sqlConfig from "../config/sqlConfig.js";
 import type {
   IClientApi,
   IClientDB,
@@ -8,6 +9,16 @@ import type {
 } from "../interfaces/IClients.js";
 
 import MySqlDb from "../db/MySql.js";
+
+const tableName = sqlConfig.table.trim();
+
+function getTableName(): string {
+  if (!tableName) {
+    throw new Error("DB_TABLE_MYSQL não configurada");
+  }
+
+  return tableName;
+}
 
 abstract class ClientsService {
   static async getClientsDataFromApi(): Promise<{
@@ -50,8 +61,9 @@ abstract class ClientsService {
         return [];
       }
 
+      const table = getTableName();
       const [rows] = await MySqlDb.query(
-        "SELECT * FROM clientes_aviso_vendedor WHERE cnpj IN (?)",
+        `SELECT * FROM ${table} WHERE cnpj IN (?)`,
         [cnpjs], // Passa o array diretamente
       );
       return rows as Array<IClientDB>;
@@ -66,8 +78,9 @@ abstract class ClientsService {
     error?: string;
   }> {
     try {
+      const table = getTableName();
       await MySqlDb.query(
-        "INSERT INTO clientes_aviso_vendedor (cliente, cnpj, vendedor_id, deal_id, organization_id, task_id) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE cliente = VALUES(cliente), vendedor_id = VALUES(vendedor_id), deal_id = VALUES(deal_id), organization_id = VALUES(organization_id), task_id = VALUES(task_id)",
+        `INSERT INTO ${table} (cliente, cnpj, vendedor_id, deal_id, organization_id, task_id) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE cliente = VALUES(cliente), vendedor_id = VALUES(vendedor_id), deal_id = VALUES(deal_id), organization_id = VALUES(organization_id), task_id = VALUES(task_id)`,
         [
           client.name,
           client.cnpj,
