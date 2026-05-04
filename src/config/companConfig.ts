@@ -18,17 +18,12 @@ const getSellersId = (companyId: string): { [key: number]: string } => {
   if (companyId === "2") {
     return {
       5: "667eae2551bbd0000f2c6cf9", // EDUARDO
-      7: "66e05f80e9ca64001a870c80", // ALLYSSON
-      9: "66e097ed80fd70001a73427b", // THATIANE
-      6: "66e16d2ce970e7001356909b", // HUMBERTO
-      8: "66e194445efd0e0013c4bdcb", // SERGIO HENRIQUE
       0: "5be75dc1d19a45003459b41f", // ADOLFO / VITOR
       28: "651beaea26ceed0012362d94", // KLEBER
       32: "6620109a3691eb000fb5bd97", // KALIL
       24: "63f6687c2f154d0011e967e5", // MARCELO
       25: "651bebbd09157d000d3a30cb", // ALEX
       36: "67a4ea94b6f1d90014d9af83", // WELLINGTON
-      37: "67cf14ef269efc0026de5f33", // LUIZ CAVALCANTE
       5536: "5be75dc1d19a45003459b41f", // ADOLFO / VITOR -> Default
     };
   }
