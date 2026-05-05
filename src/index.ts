@@ -3,8 +3,21 @@ import Utils from "./utils/Utils.js";
 import Client from "./models/Client.js";
 import { logger } from "./utils/logger.js";
 import RDController from "./controllers/RDController.js";
+import cron from "node-cron";
+
+const cronExpression = "15 7,9,11,13,15 * * *";
+let isRunning = false;
 
 const main = async (): Promise<void> => {
+  if (isRunning) {
+    logger.warning(
+      "A execução anterior ainda está em andamento. Agendamento ignorado.",
+    );
+    return;
+  }
+
+  isRunning = true;
+
   try {
     // Pega os dados dos clientes na api
     const clientsDataFromApi = await ClientsController.getClientsDataFromApi();
@@ -167,6 +180,21 @@ const main = async (): Promise<void> => {
     }
   } catch (error) {
     logger.error("An error occurred: " + error);
+  } finally {
+    isRunning = false;
   }
 };
-main();
+
+cron.schedule(
+  cronExpression,
+  () => {
+    void main();
+  },
+  {
+    timezone: "America/Sao_Paulo",
+  },
+);
+
+logger.info(
+  `Agendamento ativo para os horários 07:15, 09:15, 11:15, 13:15 e 15:15 (${cronExpression}).`,
+);
