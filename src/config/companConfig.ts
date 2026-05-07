@@ -18,7 +18,7 @@ const getSellersId = (companyId: string): { [key: number]: string } => {
   if (companyId === "2") {
     return {
       5: "667eae2551bbd0000f2c6cf9", // EDUARDO
-      0: "5be75dc1d19a45003459b41f", // ADOLFO / VITOR
+      16: "5be75dc1d19a45003459b41f", // ADOLFO / VITOR
       28: "651beaea26ceed0012362d94", // KLEBER
       32: "6620109a3691eb000fb5bd97", // KALIL
       24: "63f6687c2f154d0011e967e5", // MARCELO
