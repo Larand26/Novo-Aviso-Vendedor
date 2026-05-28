@@ -83,7 +83,7 @@ abstract class RDService {
         },
       );
 
-      if (response.data && response.data.organization) {
+      if (response.data && response.data.id) {
         return response.data.id;
       }
       return null;
