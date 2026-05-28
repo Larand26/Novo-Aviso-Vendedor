@@ -160,13 +160,12 @@ abstract class RDService {
               phones: await this.rdPhones(client),
             },
           ],
-          organizationId: {
+          organization: {
             id: organizationId,
           },
           deal: { name: client.client_name },
           distribution_settings: {
             owner: {
-              email: "exemplo@email.com",
               id: sellerId,
               type: "user",
             },
@@ -189,7 +188,14 @@ abstract class RDService {
       }
       return null;
     } catch (error) {
-      console.error("Erro ao criar deal no RD Station:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("Erro ao criar deal no RD Station:", {
+          status: error.response?.status,
+          data: error.response?.data,
+        });
+      } else {
+        console.error("Erro ao criar deal no RD Station:", error);
+      }
       return null;
     }
   }
