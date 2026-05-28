@@ -30,7 +30,7 @@ abstract class ClientsService {
       const response = await axios.get(`${configs.apiUrl}`, {
         timeout: configs.timeout,
         headers: {
-          "Content-Type": "application/json",
+          Accept: "application/json",
           Authorization: `Bearer ${configs.apiToken}`,
         },
       });
