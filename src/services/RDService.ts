@@ -156,16 +156,21 @@ abstract class RDService {
           contacts: [
             {
               name: client.client_name,
-              email: await this.rdEmail(client.client_email),
+              emails: [
+                {
+                  email: await this.rdEmail(client.client_email),
+                },
+              ],
               phones: await this.rdPhones(client),
             },
           ],
           organization: {
-            id: organizationId,
+            _id: organizationId,
           },
           deal: { name: client.client_name },
           distribution_settings: {
             owner: {
+              email: "exemplo@email.com",
               id: sellerId,
               type: "user",
             },
@@ -182,8 +187,7 @@ abstract class RDService {
           timeout: rdConfig.timeout,
         },
       );
-
-      if (response.data && response.data.deal) {
+      if (response.data && response.data.id) {
         return response.data.id;
       }
       return null;
@@ -287,9 +291,8 @@ abstract class RDService {
           timeout: rdConfig.timeout,
         },
       );
-
-      if (response.data && response.data.task) {
-        return response.data.id;
+      if (response.data && (response.data.id || response.data._id)) {
+        return response.data.id ?? response.data._id;
       }
       return null;
     } catch (error) {
