@@ -10,6 +10,7 @@ export interface IClientApi {
   city_name: string;
   client_ddd: number;
   client_ddd_fax: string;
+  client_cellphone_ddd: number;
 }
 
 export interface IClientDB {
