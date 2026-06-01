@@ -3,6 +3,8 @@ import rdConfig from "../config/rdConfig.js";
 import { getSellerIdByCode } from "../assets/sellers.js";
 import type { IClientApi } from "../interfaces/IClients.js";
 
+import { logger } from "../utils/logger.js";
+
 abstract class RDService {
   static async getSeller(sellerId: number): Promise<string | null> {
     try {
@@ -125,12 +127,15 @@ abstract class RDService {
   ): Promise<{ number: string; type: string }[]> {
     const phones: { number: string; type: string }[] = [];
 
-    if (client.client_phone) {
-      phones.push({ number: client.client_phone, type: "cellphone" });
+    if (client.client_cellphone && client.client_cellphone_ddd) {
+      phones.push({
+        number: `${client.client_cellphone_ddd}${client.client_cellphone}`,
+        type: "cellphone",
+      });
     }
-    if (client.client_cellphone) {
-      phones.push({ number: client.client_cellphone, type: "cellphone" });
-    }
+    logger.info(
+      `Telefone do cliente ${client.client_name}: ${phones.length > 0 ? phones[0]?.number : "Nenhum telefone válido"}`,
+    );
     return phones;
   }
 
