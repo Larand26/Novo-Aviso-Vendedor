@@ -217,6 +217,7 @@ abstract class RDService {
         `${rdConfig.apiUrl}/deals/${dealId}`,
         {
           deal: { user_id: sellerId },
+          deal_stage_id: rdConfig.dealStageId,
         },
         {
           params: {

@@ -8,6 +8,7 @@ const rdConfig = {
   taskDelayDays: process.env.RD_TASK_DELAY_DAYS
     ? parseInt(process.env.RD_TASK_DELAY_DAYS)
     : 7, // Quantidade de dias para definir a data de conclusão da tarefa
+  dealStageId: process.env.RD_DEAL_STAGE_ID || "", // ID do estágio do negócio para atualizar o negócio
 };
 
 export default rdConfig;
