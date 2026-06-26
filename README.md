@@ -33,6 +33,36 @@ Antes de começar, você precisará ter instalado em sua máquina:
 
 1. **Clonar o repositório**
    ```bash
-   git clone [https://github.com/Larand26/novo-aviso-vendedor.git](https://github.com/Larand26/novo-aviso-vendedor.git)
+   git clone [https://github.com/Larand26/novo-aviso-vendedor.git](https://github.com/Larand26/Novo-Aviso-Vendedor.git)
    cd aviso-vendedor
    ```
+
+## 🌍 Configuração de Ambiente
+
+```env
+# RD Station configuration
+RD_TOKEN=
+RD_TASK_DELAY_DAYS=
+MODE=
+RD_DEAL_STAGE_ID=
+
+# Internal API configuration
+URL_INTERNAL_API=
+INTERNAL_API_TOKEN=
+
+# Application mode (development, production, etc.)
+MODO=
+COMPANY_ID=
+
+# MySQL configuration
+DB_HOST_MYSQL=
+DB_USER_MYSQL=
+DB_PASSWORD_MYSQL=
+DB_DATABASE_MYSQL=
+DB_PORT_MYSQL=
+DB_TABLE_MYSQL=
+
+# EMAIL
+TOKEN_EMAIL=
+URL_EMAIL_API=
+```
