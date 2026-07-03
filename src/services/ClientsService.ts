@@ -10,6 +10,9 @@ import type {
 
 import MySqlDb from "../db/MySql.js";
 
+import Log from "../log/Log.js";
+import appConfig from "../config/appConfig.js";
+
 const tableName = sqlConfig.table.trim();
 
 function getTableName(): string {
@@ -39,6 +42,18 @@ abstract class ClientsService {
         data: response?.data || [],
       };
     } catch (error) {
+      Log.addLog({
+        jobName: "Novo Aviso Vendedor",
+        runId: Date.now(),
+        environment: appConfig.mode,
+        status: "error",
+        startedAt: new Date(),
+        finishedAt: new Date(),
+        message: "Erro ao salvar cliente no banco de dados",
+        details: {
+          error: error,
+        },
+      });
       return {
         success: false,
         data: [],
@@ -72,6 +87,18 @@ abstract class ClientsService {
       );
       return rows as Array<IClientDB>;
     } catch (error) {
+      Log.addLog({
+        jobName: "Novo Aviso Vendedor",
+        runId: Date.now(),
+        environment: appConfig.mode,
+        status: "error",
+        startedAt: new Date(),
+        finishedAt: new Date(),
+        message: "Erro ao buscar clientes no banco de dados",
+        details: {
+          error: error,
+        },
+      });
       console.error("Erro ao buscar clientes no banco de dados:", error);
       return []; // Retorna lista vazia em caso de erro para evitar falhas no processamento
     }
@@ -96,6 +123,19 @@ abstract class ClientsService {
       );
       return { success: true };
     } catch (error) {
+      Log.addLog({
+        jobName: "Novo Aviso Vendedor",
+        runId: Date.now(),
+        environment: appConfig.mode,
+        status: "error",
+        startedAt: new Date(),
+        finishedAt: new Date(),
+        message: "Erro ao salvar cliente no banco de dados",
+        details: {
+          client,
+          error: error,
+        },
+      });
       return {
         success: false,
         error: error instanceof Error ? error.message : String(error),
