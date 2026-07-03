@@ -4,6 +4,8 @@ import Client from "./models/Client.js";
 import { logger } from "./utils/logger.js";
 import RDController from "./controllers/RDController.js";
 import cron from "node-cron";
+import Log from "./log/Log.js";
+import appConfig from "./config/appConfig.js";
 
 const cronExpression = "15 7,9,11,13,15 * * *";
 let isRunning = false;
@@ -150,6 +152,7 @@ const main = async (): Promise<void> => {
     );
 
     // Atualiza as Tasks no CRM
+    const results = [];
     for (const client of clientsDataFromDB) {
       const c = new Client(client.cliente, client.cnpj);
       c.updateSellerId(client.vendedor_id);
@@ -168,16 +171,32 @@ const main = async (): Promise<void> => {
 
       const updateTaskResult = await RDController.updateTask(c.taskId);
       if (!updateTaskResult.success) {
+        results.push({
+          client: client.cliente,
+          success: false,
+          error: updateTaskResult.error,
+        });
         logger.error(
           `Falha ao atualizar a task para o cliente ${client.cliente}: ${updateTaskResult.error}`,
         );
         continue; // Pula para o próximo cliente
       } else {
+        results.push({ client: client.cliente, success: true });
         logger.success(
           `Task para o cliente ${client.cliente} atualizada com sucesso!`,
         );
       }
     }
+
+    Log.addLog({
+      jobName: "Novo Aviso Vendedor",
+      runId: Date.now(),
+      environment: appConfig.mode,
+      status: "success",
+      startedAt: new Date(),
+      finishedAt: new Date(),
+      details: { results: results },
+    });
   } catch (error) {
     logger.error("An error occurred: " + error);
   } finally {
@@ -194,6 +213,10 @@ cron.schedule(
     timezone: "America/Sao_Paulo",
   },
 );
+
+if (appConfig.mode === "development") {
+  void main();
+}
 
 logger.info(
   `Agendamento ativo para os horários 07:15, 09:15, 11:15, 13:15 e 15:15 (${cronExpression}).`,
